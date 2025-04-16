@@ -25,8 +25,8 @@ class StringCalculator
   end
 
   def split_numbers(numbers, delimiter)
-    numbers.split(/#{delimiter}/).map(&:to_i)
-  end
+    numbers.split(/#{delimiter}/).map(&:to_i).reject { |n| n > 1000 }
+  end  
 
   def check_for_negatives(numbers_array)
     negatives = numbers_array.select { |n| n < 0 }
