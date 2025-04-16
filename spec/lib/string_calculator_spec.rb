@@ -30,7 +30,6 @@ RSpec.describe StringCalculator do
       end
 
       it 'custom delimiter specified in //[delimiter]\\n format' do
-        calculator = StringCalculator.new
         expect(calculator.add("//;\n1;2")).to eq(3)
         expect(calculator.add("//-\n4-5-6")).to eq(15)
       end
@@ -39,6 +38,16 @@ RSpec.describe StringCalculator do
         it 'handles delimiters with multiple characters' do
           expect(calculator.add("//[***]\n1***2***3")).to eq(6)
           expect(calculator.add("//[abc]\n4abc5abc6")).to eq(15)
+        end
+      end
+
+      context 'multiple delimiters' do
+        it 'handles multiple delimiters' do
+          expect(calculator.add("//[*][%]\n1*2%3")).to eq(6)
+        end
+
+        it 'handles multiple delimiters with longer than one character' do
+          expect(calculator.add("//[**][%%]\n1**2%%3")).to eq(6)
         end
       end      
     end
