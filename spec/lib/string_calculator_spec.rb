@@ -34,6 +34,13 @@ RSpec.describe StringCalculator do
         expect(calculator.add("//;\n1;2")).to eq(3)
         expect(calculator.add("//-\n4-5-6")).to eq(15)
       end
+
+      context 'custom delimiters of any length' do
+        it 'handles delimiters with multiple characters' do
+          expect(calculator.add("//[***]\n1***2***3")).to eq(6)
+          expect(calculator.add("//[abc]\n4abc5abc6")).to eq(15)
+        end
+      end      
     end
 
     context 'negative numbers' do

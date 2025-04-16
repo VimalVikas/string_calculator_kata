@@ -14,15 +14,22 @@ class StringCalculator
 
   def extract_delimiter_and_numbers(numbers)
     default_delimiter = /,|\n/
-
+  
     if numbers.start_with?('//')
       header, numbers = numbers.split("\n", 2)
-      custom_delim = Regexp.escape(header[2..])
-      [numbers, custom_delim]
+  
+      if header.match?(/\A\/\/\[(.+)\]\z/)
+        custom_delim = header.scan(/\[(.+?)\]/).flatten.map { |d| Regexp.escape(d) }.join('|')
+        [numbers, custom_delim]
+      else
+        custom_delim = Regexp.escape(header[2..])
+        [numbers, custom_delim]
+      end
     else
       [numbers, default_delimiter]
     end
   end
+  
 
   def split_numbers(numbers, delimiter)
     numbers.split(/#{delimiter}/).map(&:to_i).reject { |n| n > 1000 }
